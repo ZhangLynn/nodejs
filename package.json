@@ -1,0 +1,23 @@
+{
+  "name": "nodejs-blog",
+  "version": "1.0.0",
+  "description": "A node.js project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cross-env NODE_ENV=dev nodemon ./bin/www.js"
+  },
+  "author": "ZhangLynn",
+  "license": "ISC",
+  "dependencies": {
+    "cross-env": "^6.0.3",
+    "crypto": "^1.0.1",
+    "http": "^0.0.0",
+    "mysql": "^2.17.1",
+    "redis": "^2.8.0"
+  },
+  "devDependencies": {
+    "cross-env": "^6.0.3",
+    "nodemon": "^2.0.1"
+  }
+}
