@@ -28,7 +28,7 @@ const sessionStore = new RedisStore({
 app.use(session({
     resave: false,
     saveUninitialized: true,
-    secret: 'taoyiyi_0701',
+    secret: '0701_tao', // the spell must be correct, otherwise we can not get the session
     cookie: {
         // path: '/', // default config
         // httpOnly: true, // default config,
