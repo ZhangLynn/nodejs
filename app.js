@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+const session = require('express-session');
 var indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
 const blogRouter = require('./routes/blog')
@@ -17,6 +17,18 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+// use session
+app.use(session({
+    resave: false,
+    saveUninitialized: true,
+    secret: 'taoyiyi_0701',
+    cookie: {
+        // path: '/', // default config
+        // httpOnly: true, // default config,
+        maxAge: 24 * 60 * 60 * 10000
+    }
+}))
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
