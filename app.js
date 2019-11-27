@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const session = require('express-session');
+// connect session and redis to create a redis store
+const RedisStore = require('connect-redis')(session);
 var indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
 const blogRouter = require('./routes/blog')
@@ -17,6 +19,11 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+const redisClient = require('./src/db/redis')
+const sessionStore = new RedisStore({
+    client: redisClient
+})
 // use session
 app.use(session({
     resave: false,
@@ -26,7 +33,8 @@ app.use(session({
         // path: '/', // default config
         // httpOnly: true, // default config,
         maxAge: 24 * 60 * 60 * 10000
-    }
+    },
+    store: sessionStore
 }))
 
 app.use(express.static(path.join(__dirname, 'public')));
