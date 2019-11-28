@@ -3,25 +3,67 @@
  */
 var express = require('express');
 var router = express.Router();
-
-router.get('/list', function(req, res, next) {
-    res.send('respond with a resource');
+const { getList,
+    getDetail,
+    newBlog,
+    updateBlog,
+    deleteBlog } = require('../src/controller/blog');
+const loginCheck = require('../src/middleware/loginCheck')
+const { SuccessModel, ErrorModel } = require('../src/model/resModel')
+router.get('/list', (req, res, next) => {
+    const {author, keyword} = req.query;
+    const result = getList(author, keyword)
+    return result.then(data => {
+        if (data) {
+            res.json(new SuccessModel(data));
+            return
+        }
+        res.json(new ErrorModel())
+    })
 });
 
-router.get('/detail', function(req, res, next) {
-    res.send('respond with a resource');
+router.get('/detail', loginCheck, (req, res, next) => {
+    const result = getDetail(req.query.id)
+    return result.then(data => {
+        if (data) {
+            res.json(new SuccessModel(data));
+            return
+        }
+        res.json(new ErrorModel())
+    })
 });
 
-router.post('/new', function(req, res, next) {
-    res.send('respond with a resource');
+router.post('/new', loginCheck, (req, res, next) => {
+    const result = newBlog(req.body)
+    return result.then(data => {
+        if (data) {
+            res.json(new SuccessModel(data));
+            return
+        }
+        res.json(new ErrorModel())
+    })
 });
 
-router.post('/update', function(req, res, next) {
-    res.send('respond with a resource');
+router.post('/update', loginCheck, (req, res, next) => {
+    const result = updateBlog(req.query.id,req.body)
+    return result.then(data => {
+        if (data) {
+            res.json(new SuccessModel(data));
+            return
+        }
+        res.json(new ErrorModel())
+    })
 });
 
-router.post('/delete', function(req, res, next) {
-    res.send('respond with a resource');
+router.post('/delete', loginCheck, (req, res, next) => {
+    const result = deleteBlog(req.query.id,req.body)
+    return result.then(data => {
+        if (data) {
+            res.json(new SuccessModel(data));
+            return
+        }
+        res.json(new ErrorModel())
+    })
 });
 
 module.exports = router;
